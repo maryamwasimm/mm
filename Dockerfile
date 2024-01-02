@@ -1,13 +1,14 @@
+# Use an official Node.js runtime as a base image
 FROM node:14
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install
-
+# Copy the application code to the container
 COPY . .
 
+# Expose the port the app runs on
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Define the command to run your app
+CMD ["node", "app.js"]
