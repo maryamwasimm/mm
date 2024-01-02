@@ -18,7 +18,21 @@ jobs:
 
       - name: Configure AWS Credentials
         run: |
-          echo AKIASZRN6DKXG5UN72WJ | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
+          aws configure set aws_access_key_id AKIASZRN6DKXG5UN72WJ
+          aws configure set aws_secret_access_key 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
+          echo "AWS CLI Configuration:"
+          aws configure list
+
+      - name: Docker Login to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Debugging Info
+        run: |
+          echo "AWS CLI Configuration:"
+          aws configure list
+          echo "Docker Info:"
+          docker info
 
       - name: Build and Push Docker Image to ECR
         run: |
