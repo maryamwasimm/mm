@@ -16,6 +16,11 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
+
+      - name: Change File Permissions
+        run: |
+          chmod 600 mmmmm.pem
+             
       - name: Build Docker Image
         run: docker build -t your-image-name .
 
