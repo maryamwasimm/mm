@@ -35,4 +35,4 @@ jobs:
       - name: Build and Push Docker Image to ECR
         run: |
           docker build -t 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} .
-          docker push 19229613
+          docker push 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }}
