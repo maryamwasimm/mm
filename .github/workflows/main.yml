@@ -21,8 +21,8 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -i ./mmmmm.pem ec2-user@18.234.117.166 "sudo docker stop your-container-name || true && sudo docker rm your-container-name || true"
-          scp -i ./mmmmm.pem -r ./ ec2-user@18.234.117.166:/
-          ssh -i ./mmmmm.pem ec2-user@18.234.117.166 "cd / && sudo docker build -t your-image-name . && sudo docker run -d --name your-container-name -p 3000:3000 your-image-name"
+          ssh -i mmmmm.pem ec2ec2-user@18.234.117.166 "sudo docker stop your-container-name || true && sudo docker rm your-container-name || true"
+          scp -i mmmmm.pem ec2ec2-user@18.234.117.166:/
+          ssh -i mmmmm.pem ec2ec2-user@18.234.117.166 "cd / && sudo docker build -t your-image-name . && sudo docker run -d --name your-container-name -p 3000:3000 your-image-name"
         env:
           PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
