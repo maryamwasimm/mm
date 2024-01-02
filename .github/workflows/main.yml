@@ -26,10 +26,9 @@ jobs:
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build Docker Image
-        run: docker build -t 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} .
-
-      - name: Wait for Docker Image to be Built
-        run: wait-for -t 300 localhost:5000 || exit 1
+        run: |
+          docker build -t 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} .
+          docker images | grep 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} || exit 1
 
       - name: Push Docker Image to ECR
         run: docker push 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }}
