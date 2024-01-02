@@ -9,6 +9,11 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_ACCESS_KEY_ID: AKIASZRN6DKXG5UN72WJ
+      AWS_SECRET_ACCESS_KEY: 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
+      AWS_REGION: us-east-1
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -16,16 +21,9 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
-      - name: Configure AWS Credentials
-        run: |
-          aws configure set aws_access_key_id AKIASZRN6DKXG5UN72WJ
-          aws configure set aws_secret_access_key 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
-          echo "AWS CLI Configuration:"
-          aws configure list
-
       - name: Docker Login to ECR
         run: |
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Debugging Info
         run: |
