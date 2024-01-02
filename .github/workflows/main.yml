@@ -1,0 +1,29 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          dockerfile: Dockerfile
+
+      - name: Build Docker Image
+        run: docker build -t your-image-name .
+
+      - name: Deploy to EC2
+        run: |
+          chmod +x deploy.sh
+          ./deploy.sh
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
