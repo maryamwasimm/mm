@@ -25,15 +25,11 @@ jobs:
         run: |
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin 192296131246.dkr.ecr.us-east-1.amazonaws.com
 
-      - name: Debugging Info
-        run: |
-          echo "AWS CLI Configuration:"
-          aws configure list
-          echo "Docker Info:"
-          docker info
+      - name: Build Docker Image
+        run: docker build -t 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} .
 
-      - name: Build and Push Docker Image to ECR
-        run: |
-          docker build -t 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }} .
-          sleep 10  # Add a delay of 10 seconds before pushing
-          docker push 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }}
+      - name: Wait for Docker Image to be Built
+        run: wait-for -t 300 localhost:5000 || exit 1
+
+      - name: Push Docker Image to ECR
+        run: docker push 192296131246.dkr.ecr.us-east-1.amazonaws.com/mm:${{ github.sha }}
